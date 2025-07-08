@@ -1,0 +1,42 @@
+CREATE DATABASE pim_db;
+
+CREATE TABLE category (
+  category_id INT IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(100),
+  category_image VARCHAR(1000),
+  description VARCHAR(255)
+);
+
+CREATE TABLE seller (
+  id INT PRIMARY KEY,
+  seller_name VARCHAR(100),
+  contact_name VARCHAR(100),
+  email VARCHAR(100),
+  phone_number VARCHAR(20),
+  address_line1 VARCHAR(255),
+  address_line2 VARCHAR(255),
+  city VARCHAR(100),
+  state VARCHAR(100),
+  zip_code VARCHAR(20),
+  country VARCHAR(100)
+);
+
+CREATE TABLE product (
+  product_id INT IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(100),
+  category_id INT,
+  status VARCHAR(20),
+  last_modified_date DATETIME DEFAULT GETDATE(),
+  seller_id INT,
+  FOREIGN KEY (category_id) REFERENCES category(category_id),
+  FOREIGN KEY (seller_id) REFERENCES seller(id)
+);
+
+CREATE TABLE product_attributes (
+  sku VARCHAR(50) PRIMARY KEY,
+  product_id INT,
+  size VARCHAR(50),
+  price DECIMAL(10,2),
+  product_image VARCHAR(1000),
+  FOREIGN KEY (product_id) REFERENCES product(product_id)
+);
